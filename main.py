@@ -5,8 +5,7 @@ from OpenGL.GLU import *
 from grid import Grid
 from dijkstra import Dijkstra
 
-# Initialize global variables
-grid_size = (20, 20)  # Adjusted grid size for medium-sized boxes
+grid_size = (20, 20)  
 grid = Grid(grid_size)
 dijkstra = None
 
