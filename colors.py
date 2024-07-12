@@ -1,0 +1,6 @@
+START_COLOR = (0.0, 1.0, 0.0)
+GOAL_COLOR = (1.0, 0.0, 0.0)
+VISITED_COLOR = (0.6, 0.6, 0.6)
+PATH_COLOR = (0.0, 0.0, 1.0)
+DEFAULT_COLOR = (1.0, 1.0, 1.0)
+LINE_COLOR = (0.0, 0.0, 0.0)

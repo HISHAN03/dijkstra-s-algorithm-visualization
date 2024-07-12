@@ -1,0 +1,29 @@
+# Python specific
+*.pyc
+*.pyo
+__pycache__/
+pyopengl
+
+# Virtual environments
+venv/
+env/
+
+# IDE/Editor specific
+.vscode/
+.idea/
+
+# Logs and temporary files
+*.log
+*.pot
+
+# Configuration files
+.env
+
+# Dependency management
+pip-log.txt
+requirements.txt
+
+# Operating system files
+.DS_Store
+Thumbs.db
+.directory
