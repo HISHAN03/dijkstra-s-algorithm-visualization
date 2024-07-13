@@ -1,9 +1,7 @@
-# grid.py
-
 from OpenGL.GL import *
 from colors import *
 
-class Grid:
+class Grid2:
     def __init__(self, size):
         self.size = size
         self.grid = [[0 for _ in range(size[1])] for _ in range(size[0])]
@@ -11,17 +9,11 @@ class Grid:
         self.goal_point = None
         self.path = []
         self.visited = []
-
-        # Define fixed obstacles (example)
         self.obstacles = [
-            (2, 2), (2, 3), (2, 4), (2, 5), (2, 6),
-            (3, 6), (4, 6), (5, 6),
-            (6, 2), (6, 3), (6, 4), (6, 5), (6, 6),
-            
+            (1, 1), (1, 2), (1, 3), (1, 4), (1, 5),
+            (2, 5), (3, 5), (4, 5), (5, 5),
+            (5, 1), (5, 2), (5, 3), (5, 4), (5, 5),
         ]
-        self.set_obstacles()
-
-    def set_obstacles(self):
         for (x, y) in self.obstacles:
             self.grid[x][y] = 1
 
@@ -60,16 +52,3 @@ class Grid:
         glVertex2f(x + 1, y + 1)
         glVertex2f(x, y + 1)
         glEnd()
-
-    def is_obstacle(self, point):
-        x, y = point
-        return self.grid[x][y] == 1
-
-    def neighbors(self, point):
-        x, y = point
-        neighbor_points = [(x-1, y), (x+1, y), (x, y-1), (x, y+1)]
-        valid_neighbors = [
-            (nx, ny) for nx, ny in neighbor_points
-            if 0 <= nx < self.size[0] and 0 <= ny < self.size[1] and not self.is_obstacle((nx, ny))
-        ]
-        return valid_neighbors
