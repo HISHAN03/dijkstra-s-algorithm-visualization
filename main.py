@@ -7,6 +7,7 @@ from grid.Grid1 import Grid1 as Grid1
 from grid.Grid2 import Grid2 as Grid2
 from grid.DefaultGrid import DefaultGrid as DefaultGrid
 from dijkstra import Dijkstra
+from button import Button
 
 # Global variables
 window_width = 600
@@ -17,6 +18,13 @@ algorithm_started = False
 dijkstra_algorithm = None
 current_screen = "menu"
 
+
+base_color = "#b68f40"
+lighter_shade = "#d9b96b"
+darker_shade = "#8c7029"
+slightly_lighter_shade = "#c8a85a"
+slightly_darker_shade = "#a27e37"
+
 # Pygame initialization
 pygame.init()
 screen = pygame.display.set_mode((window_width, window_height))
@@ -24,19 +32,29 @@ pygame.display.set_caption("Dijkstra's Algorithm Visualization - Menu")
 font = pygame.font.SysFont('Arial', 24)
 clock = pygame.time.Clock()
 
+
 flicker_colors = [(255, 0, 0), (0, 255, 0), (0, 0, 255)]
 current_flicker_color_index = 0
 
+def get_font(size):
+    return pygame.font.Font("assets/font.ttf", size)
+
 def display_menu():
-    global current_flicker_color_index
-
     screen.fill((255, 255, 255))
-
-    title_surface = font.render("Dijkstra's Algorithm Visualization", True, (0, 0, 0))
-    screen.blit(title_surface, (window_width // 2 - title_surface.get_width() // 2, window_height // 2 - 50))
-
-    flicker_surface = font.render("Press any key to continue", True, flicker_colors[current_flicker_color_index])
-    screen.blit(flicker_surface, (window_width // 2 - flicker_surface.get_width() // 2, window_height // 2))
+    # Title text
+    title_surface1 = get_font(27).render("Dijkstra's Algorithm", True, "#b68f40")
+    title_surface2 = get_font(25).render("Visualization", True, "#b68f40")
+    
+    # Positioning text
+    title_surface1_y = window_height // 2 - 60  # Adjust this value to fine-tune the vertical position
+    title_surface2_y = title_surface1_y + title_surface1.get_height() + 10  # 10 pixels below the first line
+    
+    screen.blit(title_surface1, (window_width // 2 - title_surface1.get_width() // 2, title_surface1_y))
+    screen.blit(title_surface2, (window_width // 2 - title_surface2.get_width() // 2, title_surface2_y))
+    
+    # Continue text
+    continue_surface = get_font(15).render("Press any key to continue", True, "#8c7029")
+    screen.blit(continue_surface, (window_width // 2 - continue_surface.get_width() // 2, window_height // 2 + 30))
 
     pygame.display.flip()
 
@@ -47,14 +65,17 @@ def update_flicker_color():
 def display_level_selection():
     screen.fill((255, 255, 255))
 
-    title_surface = font.render("Select a Grid Level:", True, (0, 0, 0))
+    title_surface = get_font(24).render("Select Grid :", True, "#b68f40")
     screen.blit(title_surface, (window_width // 2 - title_surface.get_width() // 2, window_height // 2 - 50))
 
-    options_surface = font.render("1: Grid1, 2: Grid2, 3: Default Grid", True, (0, 0, 0))
-    
-    screen.blit(options_surface, (window_width // 2 - options_surface.get_width() // 2, window_height // 2))
+    grid1_surface = get_font(17).render("1:Normal", True, "#8c7029")
+    screen.blit(grid1_surface, (window_width // 2 - grid1_surface.get_width() // 2, window_height // 2))
+
+    grid2_surface = get_font(17).render("2:Custom", True,"#8c7029")
+    screen.blit(grid2_surface, (window_width // 2 - grid2_surface.get_width() // 2, window_height // 2 + 30))
 
     pygame.display.flip()
+
 
 def run_menu():
     global current_screen
