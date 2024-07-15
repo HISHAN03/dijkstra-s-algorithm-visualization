@@ -6,9 +6,7 @@ from OpenGL.GLU import *
 from grid.Grid1 import Grid1 as Grid1
 from grid.DefaultGrid import DefaultGrid as DefaultGrid
 from dijkstra import Dijkstra
-from button import Button
 import subprocess
-
 
 # Global variables
 window_width = 600
@@ -33,9 +31,7 @@ def init_sound():
     start_stop_sound = pygame.mixer.Sound(sound_file_path)
     Obstacle_sound=pygame.mixer.Sound(obstacles_mp3)
     enter_sound=pygame.mixer.Sound(enter_mp3)
-
-
-
+    
 # Pygame 
 pygame.init()
 screen = pygame.display.set_mode((window_width, window_height))
@@ -62,7 +58,8 @@ def display_menu():
     continue_surface = get_font(15).render("Press any key to continue", True, "#8c7029")
     screen.blit(continue_surface, (window_width // 2 - continue_surface.get_width() // 2, window_height // 2 + 30))
     pygame.display.flip()
-    start_sound.play()
+    start_sound.play(loops=-1)
+
 
 
 #level-selector
@@ -76,9 +73,10 @@ def display_level_selection():
     screen.blit(grid2_surface, (window_width // 2 - grid2_surface.get_width() // 2, window_height // 2 + 30))
     instructions_text = [
         "Instructions:",
-        "select start point and goal point",
-        "set obstacles (custom-grid)",
-        "Press Enter to start traversing",
+        "1. select start point and goal point",
+        "2. set obstacles (custom-grid)",
+        "3.Press Enter to start traversing",
+        "4.Press q to restart the program",
     ]
     instruction_y = window_height // 2 + 220
     for line in instructions_text:
@@ -86,27 +84,21 @@ def display_level_selection():
         screen.blit(instruction_surface, (70, instruction_y))
         instruction_y += instruction_surface.get_height() + 5
     pygame.display.flip()
-
-
-
-
-
-
     
     
-# def restart_program():
-#     global glut_window_id
-#     if glut_window_id is not None:
-#         glutDestroyWindow(glut_window_id)
-
-#     # Restart the Python script
-#     python = sys.executable
-#     subprocess.call([python, sys.argv[0]])
-
-
-
+    
+ #restart the program   
+def restart_program():
+    if(glutGetWindow()):
+        glutDestroyWindow(glutGetWindow());
+        glutMainLoopEvent();
+        glutMainLoopEvent();
+    python = sys.executable
+    subprocess.call([python, sys.argv[0]])
 
 
+
+#first page "press any key to continue"
 def run_menu():
     global current_screen
 
@@ -119,8 +111,9 @@ def run_menu():
                 current_screen = "level_selection"
 
         display_menu()
-
-
+        
+        
+#level selector page working code
 def run_level_selector():
     global current_screen, grid
 
@@ -148,7 +141,6 @@ def init_opengl():
     glutInit()
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB)
     glutInitWindowSize(window_width, window_height)
-    # glut_window_id = glutCreateWindow(b"Dijkstra's Algorithm Visualization - Interactive")
     glutCreateWindow(b"Dijkstra's Algorithm Visualization - Interactive")
     glutDisplayFunc(display)
     glutMouseFunc(mouse)
@@ -188,11 +180,13 @@ def keyboard(key, x, y):
         dijkstra_algorithm = Dijkstra(grid)
         dijkstra_algorithm.init(grid.start_point)
         step_dijkstra(0)
-        enter_sound.play()      
-    # if key == b'q':  
-    #     restart_program()
+        enter_sound.play(loops=-1)      
+    if key == b'q':  
+         restart_program()
     glutPostRedisplay()
-
+    
+    
+# step by step traversing
 def step_dijkstra(value):
     global dijkstra_algorithm
     if dijkstra_algorithm:
@@ -203,9 +197,7 @@ def step_dijkstra(value):
             start_stop_sound.play()
         else:
             glutTimerFunc(100, step_dijkstra, 0)
-
             
-
 def main():
     run_menu()
     run_level_selector()
